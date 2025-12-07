@@ -1,9 +1,11 @@
 'use client';
 
-import { Section, Note, ImageItem, Task } from '@/types';
+import { Section, Note, ImageItem, Task, MenuItem } from '@/types';
 import { useState } from 'react';
 import Image from 'next/image';
 import { FiX, FiPlus, FiTrash2, FiEdit2, FiSave, FiImage, FiFileText, FiCheckSquare } from 'react-icons/fi';
+import { MdRestaurantMenu } from 'react-icons/md';
+import MenuManager from './MenuManager';
 
 interface SectionModalProps {
   section: Section | null;
@@ -11,10 +13,10 @@ interface SectionModalProps {
   onUpdate: (section: Section) => void;
 }
 
-type TabType = 'notes' | 'images' | 'tasks';
+type TabType = 'notes' | 'images' | 'tasks' | 'menu';
 
 export default function SectionModal({ section, onClose, onUpdate }: SectionModalProps) {
-  const [activeTab, setActiveTab] = useState<TabType>('notes');
+  const [activeTab, setActiveTab] = useState<TabType>(section?.id === 'menu' ? 'menu' : 'notes');
   const [editingNote, setEditingNote] = useState<string | null>(null);
   const [noteTitle, setNoteTitle] = useState('');
   const [noteContent, setNoteContent] = useState('');
@@ -186,6 +188,19 @@ export default function SectionModal({ section, onClose, onUpdate }: SectionModa
             <FiCheckSquare className="w-4 h-4" />
             Görevler ({section.tasks.filter(t => t.completed).length}/{section.tasks.length})
           </button>
+          {section.id === 'menu' && (
+            <button
+              onClick={() => setActiveTab('menu')}
+              className={`flex items-center gap-2 px-6 py-3 font-medium transition-colors ${
+                activeTab === 'menu'
+                  ? 'text-green-600 border-b-2 border-green-600 bg-white dark:bg-gray-800'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+              }`}
+            >
+              <MdRestaurantMenu className="w-4 h-4" />
+              Menü ({section.menuItems?.length || 0})
+            </button>
+          )}
         </div>
 
         {/* Content */}
@@ -359,6 +374,20 @@ export default function SectionModal({ section, onClose, onUpdate }: SectionModa
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {activeTab === 'menu' && section.id === 'menu' && (
+            <div>
+              <MenuManager
+                menuItems={section.menuItems || []}
+                onUpdate={(items: MenuItem[]) => {
+                  onUpdate({
+                    ...section,
+                    menuItems: items,
+                  });
+                }}
+              />
             </div>
           )}
         </div>

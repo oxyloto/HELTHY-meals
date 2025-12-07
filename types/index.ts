@@ -23,6 +23,28 @@ export interface Task {
   createdAt: Date;
 }
 
+export type MealCategory = 'breakfast' | 'lunch';
+export type TemperatureType = 'hot' | 'cold';
+
+export interface MenuItem {
+  id: string;
+  name: string;
+  description: string;
+  category: MealCategory;
+  temperature: TemperatureType;
+  price?: number;
+  cost?: number;
+  ingredients?: string[];
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fats?: number;
+  image?: string;
+  shelfLife?: number; // days
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface RoadmapItem {
   id: string;
   title: string;
@@ -43,6 +65,7 @@ export interface Section {
   notes: Note[];
   images: ImageItem[];
   tasks: Task[];
+  menuItems?: MenuItem[]; // Only for menu section
 }
 
 export interface BoardData {

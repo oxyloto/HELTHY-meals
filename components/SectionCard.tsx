@@ -2,6 +2,7 @@
 
 import { Section } from '@/types';
 import { FiImage, FiFileText, FiCheckSquare, FiPlus } from 'react-icons/fi';
+import { MdRestaurantMenu } from 'react-icons/md';
 
 interface SectionCardProps {
   section: Section;
@@ -14,6 +15,7 @@ export default function SectionCard({ section, onClick }: SectionCardProps) {
     images: section.images.length,
     tasks: section.tasks.length,
     completedTasks: section.tasks.filter(t => t.completed).length,
+    menuItems: section.menuItems?.length || 0,
   };
 
   return (
@@ -36,31 +38,59 @@ export default function SectionCard({ section, onClick }: SectionCardProps) {
       </div>
 
       <div className="grid grid-cols-3 gap-3 mt-4">
-        <div className="bg-white/60 dark:bg-black/20 rounded-lg p-3">
-          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-1">
-            <FiFileText className="w-4 h-4" />
-            <span className="text-xs font-medium">Notlar</span>
-          </div>
-          <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.notes}</p>
-        </div>
+        {section.id === 'menu' ? (
+          <>
+            <div className="bg-white/60 dark:bg-black/20 rounded-lg p-3">
+              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-1">
+                <MdRestaurantMenu className="w-4 h-4" />
+                <span className="text-xs font-medium">Menü</span>
+              </div>
+              <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.menuItems}</p>
+            </div>
+            <div className="bg-white/60 dark:bg-black/20 rounded-lg p-3">
+              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-1">
+                <FiFileText className="w-4 h-4" />
+                <span className="text-xs font-medium">Notlar</span>
+              </div>
+              <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.notes}</p>
+            </div>
+            <div className="bg-white/60 dark:bg-black/20 rounded-lg p-3">
+              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-1">
+                <FiImage className="w-4 h-4" />
+                <span className="text-xs font-medium">Görseller</span>
+              </div>
+              <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.images}</p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="bg-white/60 dark:bg-black/20 rounded-lg p-3">
+              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-1">
+                <FiFileText className="w-4 h-4" />
+                <span className="text-xs font-medium">Notlar</span>
+              </div>
+              <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.notes}</p>
+            </div>
 
-        <div className="bg-white/60 dark:bg-black/20 rounded-lg p-3">
-          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-1">
-            <FiImage className="w-4 h-4" />
-            <span className="text-xs font-medium">Görseller</span>
-          </div>
-          <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.images}</p>
-        </div>
+            <div className="bg-white/60 dark:bg-black/20 rounded-lg p-3">
+              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-1">
+                <FiImage className="w-4 h-4" />
+                <span className="text-xs font-medium">Görseller</span>
+              </div>
+              <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.images}</p>
+            </div>
 
-        <div className="bg-white/60 dark:bg-black/20 rounded-lg p-3">
-          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-1">
-            <FiCheckSquare className="w-4 h-4" />
-            <span className="text-xs font-medium">Görevler</span>
-          </div>
-          <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {stats.completedTasks}/{stats.tasks}
-          </p>
-        </div>
+            <div className="bg-white/60 dark:bg-black/20 rounded-lg p-3">
+              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-1">
+                <FiCheckSquare className="w-4 h-4" />
+                <span className="text-xs font-medium">Görevler</span>
+              </div>
+              <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                {stats.completedTasks}/{stats.tasks}
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

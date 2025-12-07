@@ -11,6 +11,7 @@ const defaultSections = {
     notes: [],
     images: [],
     tasks: [],
+    menuItems: [],
   },
   operations: {
     id: 'operations' as SectionType,
@@ -106,6 +107,11 @@ export const loadBoardData = (): BoardData => {
               createdAt: new Date(task.createdAt),
               dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
             })),
+            menuItems: section.menuItems ? section.menuItems.map((item: any) => ({
+              ...item,
+              createdAt: new Date(item.createdAt),
+              updatedAt: new Date(item.updatedAt),
+            })) : undefined,
           },
         ])
       ),
